@@ -1,0 +1,478 @@
+/* ═══════════════════════════════════════════════════════════════
+   PREMIUM ANIMATIONS & ENHANCEMENTS - ENTIRE WEBSITE
+   Amazon/Flipkart/Myntra Level Design with Smooth Animations
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── KEYFRAME ANIMATIONS ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+  }
+}
+
+/* ── APPLY ANIMATIONS TO ELEMENTS ── */
+
+/* Page load animation */
+body {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Dashboard shell */
+.dash-shell {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar items */
+.dash-nav-item {
+  animation: slideInLeft 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.dash-nav-item:nth-child(1) { animation-delay: 0.1s; }
+.dash-nav-item:nth-child(2) { animation-delay: 0.15s; }
+.dash-nav-item:nth-child(3) { animation-delay: 0.2s; }
+.dash-nav-item:nth-child(4) { animation-delay: 0.25s; }
+.dash-nav-item:nth-child(5) { animation-delay: 0.3s; }
+.dash-nav-item:nth-child(6) { animation-delay: 0.35s; }
+
+/* Stat cards */
+.stat-card {
+  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Product cards */
+.pcard, [class*="ProductCard"] > div {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger product cards */
+.pgrid > *:nth-child(1) { animation-delay: 0.05s; }
+.pgrid > *:nth-child(2) { animation-delay: 0.1s; }
+.pgrid > *:nth-child(3) { animation-delay: 0.15s; }
+.pgrid > *:nth-child(4) { animation-delay: 0.2s; }
+.pgrid > *:nth-child(5) { animation-delay: 0.25s; }
+.pgrid > *:nth-child(6) { animation-delay: 0.3s; }
+.pgrid > *:nth-child(7) { animation-delay: 0.35s; }
+.pgrid > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* Buttons hover effect */
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Input focus effect */
+input, textarea, select {
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  transform: scale(1.01);
+}
+
+/* Card hover effects */
+.card, .stat-card, .pcard, [style*="background: #fff"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Topbar animation */
+.tb {
+  animation: fadeInDown 0.5s ease-out;
+}
+
+/* Logo bounce on hover */
+.tb-logo:hover .tb-logo-box {
+  animation: bounce 0.6s ease-in-out;
+}
+
+/* Cart badge pulse */
+.tb-cart-badge {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Search bar focus */
+.tb-search:focus-within {
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+/* Modal animations */
+.modal, [role="dialog"] {
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toast notifications */
+.toast, [class*="toast"] {
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading spinner */
+.spinner, [class*="spinner"], [class*="loading"] {
+  animation: rotate 1s linear infinite;
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 0%,
+    #e5e7eb 50%,
+    #f3f4f6 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Badge animations */
+.badge, [class*="badge"] {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Section headers */
+.sec-hd, .sec-title {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Page transitions */
+.page-enter {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.page-exit {
+  animation: fadeIn 0.3s ease-out reverse;
+}
+
+/* Hover lift effect for interactive elements */
+a, button, .clickable, [onclick], [role="button"] {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+a:hover, button:hover, .clickable:hover, [onclick]:hover, [role="button"]:hover {
+  transform: translateY(-2px);
+}
+
+/* Image zoom on hover */
+img {
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth transitions for all */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Remove transition for animations */
+*[class*="animate"], *[style*="animation"] {
+  transition: none !important;
+}
+
+/* ── ENHANCED HOVER STATES ── */
+
+/* Enhanced button hover */
+.btn, .primary-btn, .secondary-btn, [class*="btn"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before, .primary-btn::before, .secondary-btn::before, [class*="btn"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before, .primary-btn:hover::before, .secondary-btn:hover::before, [class*="btn"]:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Card shine effect */
+.card::after, .stat-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  transition: all 0.6s;
+  opacity: 0;
+}
+
+.card:hover::after, .stat-card:hover::after {
+  opacity: 1;
+  left: 100%;
+}
+
+/* ── RESPONSIVE ANIMATIONS ── */
+
+@media (max-width: 768px) {
+  /* Reduce animation intensity on mobile */
+  * {
+    animation-duration: 0.3s !important;
+  }
+  
+  /* Disable hover animations on touch devices */
+  @media (hover: none) {
+    *:hover {
+      transform: none !important;
+    }
+  }
+}
+
+/* ── ACCESSIBILITY ── */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── FOCUS STATES ── */
+
+*:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+  animation: pulse 1s ease-in-out;
+}
+
+/* ── LOADING STATES ── */
+
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #fbbf24;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: rotate 0.6s linear infinite;
+}
+
+/* ── SUCCESS/ERROR ANIMATIONS ── */
+
+.success {
+  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1), pulse 0.5s ease-in-out 0.5s;
+}
+
+.error {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* ── PREMIUM GRADIENT BACKGROUNDS ── */
+
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ── FLOATING ANIMATION ── */
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ── RIPPLE EFFECT ── */
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
