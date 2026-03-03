@@ -23,7 +23,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
 
   const loadStats = async () => {
     try {
-      const res = await fetch("${API_BASE_URL}/api/admin/stats");
+      const res = await fetch(`${API_BASE_URL}/api/admin/stats`);
       const data = await res.json();
       setStats(data);
     } catch (e) {
@@ -34,7 +34,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("${API_BASE_URL}/api/admin/users");
+      const res = await fetch(`${API_BASE_URL}/api/admin/users`);
       const data = await res.json();
       setUsers(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -46,7 +46,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadDealers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("${API_BASE_URL}/api/admin/dealers");
+      const res = await fetch(`${API_BASE_URL}/api/admin/dealers`);
       const data = await res.json();
       setDealers(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -58,7 +58,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch("${API_BASE_URL}/api/admin/products");
+      const res = await fetch(`${API_BASE_URL}/api/admin/products`);
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -70,7 +70,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch("${API_BASE_URL}/api/admin/orders");
+      const res = await fetch(`${API_BASE_URL}/api/admin/orders`);
       const data = await res.json();
       setOrders(Array.isArray(data) ? data : []);
     } catch (e) {

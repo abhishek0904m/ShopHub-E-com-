@@ -807,7 +807,7 @@ export default function Dashboard({ onNavigate, userName, userEmail }) {
                       onClick={async () => {
                         if (!contactForm.name.trim() || !contactForm.message.trim()) { showToast("Please fill name and message"); return; }
                         try {
-                          await fetch("${API_BASE_URL}/api/contact", {
+                          await fetch(`${API_BASE_URL}/api/contact`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({

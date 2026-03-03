@@ -56,7 +56,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
       // ✅ Filter products by dealer code
       const url = myDealerCode 
         ? `${API_BASE_URL}/api/products?dealerCode=${myDealerCode}`
-        : "${API_BASE_URL}/api/products";
+        : `${API_BASE_URL}/api/products`;
       const res = await fetch(url);
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
@@ -66,7 +66,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
   const loadAllOrders = async () => {
     try {
       // ✅ Get all orders, then filter on frontend to show only items from this dealer
-      const res = await fetch("${API_BASE_URL}/api/orders/all");
+      const res = await fetch(`${API_BASE_URL}/api/orders/all`);
       const data = await res.json();
       const allOrders = Array.isArray(data) ? data : [];
       
@@ -107,7 +107,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
 
   const loadContactMessages = async () => {
     try {
-      const res  = await fetch("${API_BASE_URL}/api/contact");
+      const res  = await fetch(`${API_BASE_URL}/api/contact`);
       const data = await res.json();
       const all  = Array.isArray(data) ? data : [];
       setQueries(all);
