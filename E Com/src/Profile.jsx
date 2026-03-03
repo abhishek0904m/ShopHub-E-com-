@@ -2,8 +2,9 @@
 //  src/Profile.jsx
 // ─────────────────────────────────────────
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "./config";
 
-const BASE = "http://localhost:5000/api";
+const BASE = `${API_BASE_URL}/api`;
 
 export default function Profile({ me, userEmail, onNavigate }) {
   const [firstName, setFirstName] = useState(me || "");

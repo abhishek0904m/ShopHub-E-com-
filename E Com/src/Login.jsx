@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { API_BASE_URL } from "./config";
 
-const API = "http://localhost:5000/api";
+const API = `${API_BASE_URL}/api`;
 
 function Login({ onNavigate }) {
   const [formData, setFormData]     = useState({ email: "", password: "" });
