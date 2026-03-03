@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { SHARED_CSS } from "./shared";
+import { API_BASE_URL } from "./config";
 
 export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const [page, setPage] = useState("overview");
@@ -22,7 +23,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
 
   const loadStats = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/stats");
+      const res = await fetch("${API_BASE_URL}/api/admin/stats");
       const data = await res.json();
       setStats(data);
     } catch (e) {
@@ -33,7 +34,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/admin/users");
+      const res = await fetch("${API_BASE_URL}/api/admin/users");
       const data = await res.json();
       setUsers(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -45,7 +46,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadDealers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/admin/dealers");
+      const res = await fetch("${API_BASE_URL}/api/admin/dealers");
       const data = await res.json();
       setDealers(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -57,7 +58,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/admin/products");
+      const res = await fetch("${API_BASE_URL}/api/admin/products");
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -69,7 +70,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const loadOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/admin/orders");
+      const res = await fetch("${API_BASE_URL}/api/admin/orders");
       const data = await res.json();
       setOrders(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -86,7 +87,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
 
   const handleApproveDealer = async (dealerId, approved) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/dealers/${dealerId}/approval`, {
+      const res = await fetch(`${API_BASE_URL}/api/dealers/${dealerId}/approval`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ approved }),
@@ -103,7 +104,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
 
   const handleToggleDealerStatus = async (dealerId, active) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/dealers/${dealerId}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/dealers/${dealerId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ active }),
@@ -121,7 +122,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const handleDeleteUser = async (userId) => {
     if (!window.confirm("Delete this user? This action cannot be undone.")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/users/${userId}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed");
@@ -136,7 +137,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const handleDeleteDealer = async (dealerId) => {
     if (!window.confirm("Delete this dealer? This will also remove their products.")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/dealers/${dealerId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/dealers/${dealerId}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed");
@@ -151,7 +152,7 @@ export default function AdminDashboard({ onNavigate, userName, adminId }) {
   const handleDeleteProduct = async (productId) => {
     if (!window.confirm("Delete this product?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/products/${productId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/products/${productId}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed");

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "./config";
 
 export default function AdminLogin({ onNavigate }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -40,7 +41,7 @@ export default function AdminLogin({ onNavigate }) {
     setLoading(true);
     setServerError("");
     try {
-      const res = await fetch("http://localhost:5000/api/admin/login", {
+      const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "./config";
 
 export default function DealerRegistration({ onNavigate }) {
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ export default function DealerRegistration({ onNavigate }) {
     setLoading(true);
     setServerError("");
     try {
-      const res = await fetch("http://localhost:5000/api/dealers/register", {
+      const res = await fetch(`${API_BASE_URL}/api/dealers/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

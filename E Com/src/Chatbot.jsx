@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { API_BASE_URL } from "./config";
 
 export default function Chatbot({ userType = "user", userEmail = "", userName = "" }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +35,7 @@ export default function Chatbot({ userType = "user", userEmail = "", userName = 
 
     try {
       // Call Groq API with user info
-      const response = await fetch("http://localhost:5000/api/chatbot", {
+      const response = await fetch("${API_BASE_URL}/api/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

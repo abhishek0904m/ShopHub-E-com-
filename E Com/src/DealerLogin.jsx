@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "./config";
 
 const DEALER_SECRET = "SHOPHUB@DEALER2024";
 
@@ -39,7 +40,7 @@ export default function DealerLogin({ onNavigate }) {
 
     setLoading(true); setServerError("");
     try {
-      const res = await fetch("http://localhost:5000/api/dealers/login", {
+      const res = await fetch(`${API_BASE_URL}/api/dealers/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 

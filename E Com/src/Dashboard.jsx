@@ -1,6 +1,7 @@
 // src/Dashboard.jsx
 import { useState, useEffect } from "react";
 import { RAZORPAY_KEY_ID, CATS, NAV_ITEMS, SHARED_CSS } from "./shared";
+import { API_BASE_URL } from "./config";
 import { fetchOrders, createOrder, fetchProducts, createProduct, deleteProduct, updateOrderStatus, fetchCart, saveCart, clearCartDB } from "./api";
 import Home       from "./Home";
 import MyOrders   from "./MyOrders";
@@ -18,7 +19,7 @@ function MyQueries({ userEmail }) {
 
   useEffect(() => {
     if (!userEmail) return;
-    fetch(`http://localhost:5000/api/contact/user/${encodeURIComponent(userEmail)}`)
+    fetch(`${API_BASE_URL}/api/contact/user/${encodeURIComponent(userEmail)}`)
       .then(r => r.json())
       .then(data => { setQueries(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
@@ -106,7 +107,7 @@ export default function Dashboard({ onNavigate, userName, userEmail }) {
   const loadQueryNotifs = async (email) => {
     if (!email) return;
     try {
-      const res  = await fetch(`http://localhost:5000/api/contact/user/${encodeURIComponent(email)}`);
+      const res  = await fetch(`${API_BASE_URL}/api/contact/user/${encodeURIComponent(email)}`);
       const data = await res.json();
       const updated = (Array.isArray(data) ? data : []).filter(q => q.userNotified === false || q.userNotified === undefined && q.status !== "Open");
       if (updated.length > 0) setQueryNotifs(updated);
@@ -114,7 +115,7 @@ export default function Dashboard({ onNavigate, userName, userEmail }) {
   };
 
   const dismissQueryNotif = async (q) => {
-    try { await fetch(`http://localhost:5000/api/contact/${q._id}/userNotified`, { method: "PATCH", headers: { "Content-Type": "application/json" } }); }
+    try { await fetch(`${API_BASE_URL}/api/contact/${q._id}/userNotified`, { method: "PATCH", headers: { "Content-Type": "application/json" } }); }
     catch (e) { console.warn("Could not mark userNotified:", e.message); }
     setQueryNotifs(prev => prev.filter(m => m._id !== q._id));
   };
@@ -123,7 +124,7 @@ export default function Dashboard({ onNavigate, userName, userEmail }) {
 
   const dismissCancelNotif = async (order) => {
     const orderId = order._id || order.id;
-    try { await fetch(`http://localhost:5000/api/orders/${orderId}/notified`, { method: "PATCH", headers: { "Content-Type": "application/json" } }); }
+    try { await fetch(`${API_BASE_URL}/api/orders/${orderId}/notified`, { method: "PATCH", headers: { "Content-Type": "application/json" } }); }
     catch (e) { console.warn("Could not mark notified:", e.message); }
     setCancelNotifs(prev => prev.filter(o => (o._id || o.id) !== orderId));
   };
@@ -806,7 +807,7 @@ export default function Dashboard({ onNavigate, userName, userEmail }) {
                       onClick={async () => {
                         if (!contactForm.name.trim() || !contactForm.message.trim()) { showToast("Please fill name and message"); return; }
                         try {
-                          await fetch("http://localhost:5000/api/contact", {
+                          await fetch("${API_BASE_URL}/api/contact", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({

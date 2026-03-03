@@ -3,6 +3,7 @@
 // ─────────────────────────────────────────
 import { useState, useEffect } from "react";
 import { SHARED_CSS } from "./shared";
+import { API_BASE_URL } from "./config";
 import { fetchProducts, createProduct, deleteProduct } from "./api";
 import AddProduct from "./AddProduct";
 import Chatbot from "./Chatbot";
@@ -54,8 +55,8 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
     try {
       // ✅ Filter products by dealer code
       const url = myDealerCode 
-        ? `http://localhost:5000/api/products?dealerCode=${myDealerCode}`
-        : "http://localhost:5000/api/products";
+        ? `${API_BASE_URL}/api/products?dealerCode=${myDealerCode}`
+        : "${API_BASE_URL}/api/products";
       const res = await fetch(url);
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
@@ -65,7 +66,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
   const loadAllOrders = async () => {
     try {
       // ✅ Get all orders, then filter on frontend to show only items from this dealer
-      const res = await fetch("http://localhost:5000/api/orders/all");
+      const res = await fetch("${API_BASE_URL}/api/orders/all");
       const data = await res.json();
       const allOrders = Array.isArray(data) ? data : [];
       
@@ -106,7 +107,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
 
   const loadContactMessages = async () => {
     try {
-      const res  = await fetch("http://localhost:5000/api/contact");
+      const res  = await fetch("${API_BASE_URL}/api/contact");
       const data = await res.json();
       const all  = Array.isArray(data) ? data : [];
       setQueries(all);
@@ -124,7 +125,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
   // ── Dismiss single contact notif
   const dismissContactNotif = async (msg) => {
     try {
-      await fetch(`http://localhost:5000/api/contact/${msg._id}/notified`, { method: "PATCH", headers: { "Content-Type": "application/json" } });
+      await fetch(`${API_BASE_URL}/api/contact/${msg._id}/notified`, { method: "PATCH", headers: { "Content-Type": "application/json" } });
     } catch (e) { console.warn(e.message); }
     setContactNotifs(prev => prev.filter(m => m._id !== msg._id));
   };
@@ -138,7 +139,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
   const handleQueryStatus = async (queryId, newStatus) => {
     setUpdatingQueryId(queryId);
     try {
-      const res = await fetch(`http://localhost:5000/api/contact/${queryId}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/contact/${queryId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -153,7 +154,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
   // ── Hide resolved query from dealer view (stays in DB) ──
   const handleDeleteQuery = async (queryId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/contact/${queryId}/dealerHidden`, {
+      const res = await fetch(`${API_BASE_URL}/api/contact/${queryId}/dealerHidden`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
       });
@@ -186,7 +187,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
     const orderId = order._id || order.id;
     setUpdatingId(orderId);
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -206,7 +207,7 @@ export default function DealerDashboard({ onNavigate, userName, dealerId }) {
     const orderId = cancelModal._id || cancelModal.id;
     setCancelling(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "Cancelled", cancelReason: reason, cancelledBy: "dealer" }),
