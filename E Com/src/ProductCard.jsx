@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────
 //  src/ProductCard.jsx - MYNTRA PREMIUM STYLE
 // ─────────────────────────────────────────
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProductCard({ 
   w, 
@@ -16,8 +16,19 @@ export default function ProductCard({
   setPage
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const key = w._id || w.id;
   const isRealImage = w.img && (w.img.startsWith("http") || w.img.startsWith("data:image"));
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleCardClick = (e) => {
     if (e.target.closest('button')) return;
@@ -108,8 +119,8 @@ export default function ProductCard({
           <span style={{ color: "#6b7280" }}>{w.rev || "1.7k"}</span>
         </div>
 
-        {/* Wishlist Button - Top Right (on hover) - Myntra Style */}
-        {isHovered && !showDelete && toggleWishlist && (
+        {/* Wishlist Button - Top Right (on hover or always on mobile) - Myntra Style */}
+        {(isHovered || isMobile) && !showDelete && toggleWishlist && (
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -122,26 +133,30 @@ export default function ProductCard({
               background: "#fff",
               border: "1px solid #d1d5db",
               borderRadius: 50,
-              width: 40,
-              height: 40,
+              width: isMobile ? 36 : 40,
+              height: isMobile ? 36 : 40,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 20,
+              fontSize: isMobile ? 16 : 20,
               color: isInWishlist && isInWishlist(key) ? "#ef4444" : "#6b7280",
               zIndex: 3,
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
               transition: "all 0.2s ease",
-              animation: "fadeIn 0.2s ease",
+              animation: !isMobile ? "fadeIn 0.2s ease" : "none",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#374151";
-              e.currentTarget.style.transform = "scale(1.1)";
+              if (!isMobile) {
+                e.currentTarget.style.borderColor = "#374151";
+                e.currentTarget.style.transform = "scale(1.1)";
+              }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#d1d5db";
-              e.currentTarget.style.transform = "scale(1)";
+              if (!isMobile) {
+                e.currentTarget.style.borderColor = "#d1d5db";
+                e.currentTarget.style.transform = "scale(1)";
+              }
             }}
           >
             {isInWishlist && isInWishlist(key) ? "❤️" : "♡"}
@@ -204,8 +219,8 @@ export default function ProductCard({
           </span>
         )}
 
-        {/* Add to Cart Button - Overlay on Image (on hover) */}
-        {isHovered && (
+        {/* Add to Cart Button - Overlay on Image (on hover or always on mobile) */}
+        {(isHovered || isMobile) && (
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -216,51 +231,58 @@ export default function ProductCard({
               }
             }}
             style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: "14px",
+              position: isMobile ? "static" : "absolute",
+              bottom: isMobile ? "auto" : 0,
+              left: isMobile ? "auto" : 0,
+              right: isMobile ? "auto" : 0,
+              padding: isMobile ? "10px" : "14px",
               background: isInCart(key) ? "#16a34a" : "#fff",
               color: isInCart(key) ? "#fff" : "#111827",
               border: isInCart(key) ? "none" : "1px solid #d1d5db",
-              fontSize: 13,
+              fontSize: isMobile ? 11 : 13,
               fontWeight: 700,
               cursor: "pointer",
               transition: "all 0.2s ease",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 8,
+              gap: isMobile ? 6 : 8,
               fontFamily: "Assistant, sans-serif",
-              animation: "slideUp 0.3s ease",
+              animation: !isMobile ? "slideUp 0.3s ease" : "none",
               zIndex: 3,
               letterSpacing: 0.3,
+              borderRadius: isMobile ? "6px" : "0",
+              marginTop: isMobile ? "8px" : "0",
+              width: isMobile ? "100%" : "auto",
             }}
             onMouseEnter={(e) => {
-              if (isInCart(key)) {
-                e.currentTarget.style.background = "#15803d";
-              } else {
-                e.currentTarget.style.background = "#f9fafb";
+              if (!isMobile) {
+                if (isInCart(key)) {
+                  e.currentTarget.style.background = "#15803d";
+                } else {
+                  e.currentTarget.style.background = "#f9fafb";
+                }
               }
             }}
             onMouseLeave={(e) => {
-              if (isInCart(key)) {
-                e.currentTarget.style.background = "#16a34a";
-              } else {
-                e.currentTarget.style.background = "#fff";
+              if (!isMobile) {
+                if (isInCart(key)) {
+                  e.currentTarget.style.background = "#16a34a";
+                } else {
+                  e.currentTarget.style.background = "#fff";
+                }
               }
             }}
           >
             {isInCart(key) ? (
               <>
-                <span style={{ fontSize: 16 }}>✓</span>
-                <span>ADDED TO BAG</span>
+                <span style={{ fontSize: isMobile ? 14 : 16 }}>✓</span>
+                <span>{isMobile ? "IN BAG" : "ADDED TO BAG"}</span>
               </>
             ) : (
               <>
-                <span style={{ fontSize: 16 }}>🛒</span>
-                <span>ADD TO BAG</span>
+                <span style={{ fontSize: isMobile ? 14 : 16 }}>🛒</span>
+                <span>{isMobile ? "ADD" : "ADD TO BAG"}</span>
               </>
             )}
           </button>

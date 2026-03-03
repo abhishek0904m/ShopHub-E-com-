@@ -3,6 +3,7 @@
 // ─────────────────────────────────────────
 import { useState } from "react";
 import ProductCard from "./ProductCard";
+import "./mobile-responsive.css";
 
 export default function Home({ products, orders, addToCart, removeFromCart, isInCart, toggleWishlist, isInWishlist, setPage, onProductClick, search: searchProp }) {
   const [search, setSearch] = useState(searchProp || "");

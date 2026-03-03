@@ -10,11 +10,13 @@ import DealerRegistration from "./DealerRegistration";
 import DealerDashboard    from "./DealerDashboard";
 import AdminLogin         from "./AdminLogin";
 import AdminDashboard     from "./AdminDashboard";
+import MobileMenu         from "./MobileMenu";
 import "./App.css";
 import "./global-styles.css";
 import "./responsive-dashboard.css";
 import "./enhanced-dashboard.css";
 import "./premium-animations.css";
+import "./mobile-responsive.css";
 
 // ✅ Read session from localStorage on first load
 // So page refresh restores the user's session instead of going to register
@@ -80,7 +82,7 @@ function App() {
   if (page === "dealer-dashboard")    return <DealerDashboard    onNavigate={handleNavigate} userName={userName} dealerId={userId} />;
   if (page === "dealer-registration") return <DealerRegistration onNavigate={handleNavigate} />;
   if (page === "dealer-login")        return <DealerLogin        onNavigate={handleNavigate} />;
-  if (page === "dashboard")           return <Dashboard          onNavigate={handleNavigate} userName={userName} userEmail={userEmail} />;
+  if (page === "dashboard")           return <MobileMenu><Dashboard onNavigate={handleNavigate} userName={userName} userEmail={userEmail} /></MobileMenu>;
   if (page === "login")               return <Login              onNavigate={handleNavigate} />;
   return <Registration onNavigate={handleNavigate} />;
 }
