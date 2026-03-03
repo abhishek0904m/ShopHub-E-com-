@@ -10,20 +10,28 @@ app.use(express.json({ limit: "10mb" }));
 // ── CORS Configuration for Production ──
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174",
+  "https://shophub-frontend-fzd6.onrender.com",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
+console.log("🔒 CORS allowed origins:", allowedOrigins);
+
 app.use(cors({ 
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
+    // Allow requests with no origin (mobile apps, Postman, curl, etc.)
     if (!origin) return callback(null, true);
+    
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`⚠️ CORS blocked origin: ${origin}`);
+      callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
     }
   },
-  credentials: true 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // ── MongoDB Connection ──
