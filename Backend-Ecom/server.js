@@ -79,6 +79,51 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// ── OAUTH LOGIN/REGISTER (Google) ──
+app.post("/api/oauth-login", async (req, res) => {
+  const { email, name, provider, providerId, photoURL } = req.body;
+
+  if (!email || !name) {
+    return res.status(400).json({ message: "Email and name are required" });
+  }
+
+  try {
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user with OAuth
+      user = await User.create({
+        name,
+        email,
+        password: "", // No password for OAuth users
+        authProvider: provider, // 'google'
+        providerId: providerId,
+        photoURL: photoURL || "",
+      });
+      console.log(`✅ New OAuth user created: ${email} via ${provider}`);
+    } else {
+      // Update existing user with OAuth info if not already set
+      if (!user.authProvider || user.authProvider === 'local') {
+        user.authProvider = provider;
+        user.providerId = providerId;
+        if (photoURL) user.photoURL = photoURL;
+        await user.save();
+        console.log(`✅ Existing user linked to ${provider}: ${email}`);
+      }
+    }
+
+    res.json({
+      message: "Login successful",
+      name: user.name,
+      userId: user._id,
+    });
+  } catch (err) {
+    console.error("OAuth login error:", err);
+    res.status(500).json({ message: "Server error during OAuth login" });
+  }
+});
+
 // ── GET PROFILE ──
 app.get("/api/profile/:email", async (req, res) => {
   try {
