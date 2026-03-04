@@ -2,8 +2,6 @@
 //  src/App.jsx
 // ─────────────────────────────────────────
 import { useState } from "react";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GOOGLE_CLIENT_ID } from './googleConfig';
 import Registration       from "./Registration";
 import Login              from "./Login";
 import Dashboard          from "./Dashboard";
@@ -79,18 +77,14 @@ function App() {
     }
   };
 
-  return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      {page === "admin-dashboard" && <AdminDashboard onNavigate={handleNavigate} userName={userName} adminId={userId} />}
-      {page === "admin-login" && <AdminLogin onNavigate={handleNavigate} />}
-      {page === "dealer-dashboard" && <DealerDashboard onNavigate={handleNavigate} userName={userName} dealerId={userId} />}
-      {page === "dealer-registration" && <DealerRegistration onNavigate={handleNavigate} />}
-      {page === "dealer-login" && <DealerLogin onNavigate={handleNavigate} />}
-      {page === "dashboard" && <MobileMenu><Dashboard onNavigate={handleNavigate} userName={userName} userEmail={userEmail} /></MobileMenu>}
-      {page === "login" && <Login onNavigate={handleNavigate} />}
-      {page === "register" && <Registration onNavigate={handleNavigate} />}
-    </GoogleOAuthProvider>
-  );
+  if (page === "admin-dashboard")     return <AdminDashboard     onNavigate={handleNavigate} userName={userName} adminId={userId} />;
+  if (page === "admin-login")         return <AdminLogin         onNavigate={handleNavigate} />;
+  if (page === "dealer-dashboard")    return <DealerDashboard    onNavigate={handleNavigate} userName={userName} dealerId={userId} />;
+  if (page === "dealer-registration") return <DealerRegistration onNavigate={handleNavigate} />;
+  if (page === "dealer-login")        return <DealerLogin        onNavigate={handleNavigate} />;
+  if (page === "dashboard")           return <MobileMenu><Dashboard onNavigate={handleNavigate} userName={userName} userEmail={userEmail} /></MobileMenu>;
+  if (page === "login")               return <Login              onNavigate={handleNavigate} />;
+  return <Registration onNavigate={handleNavigate} />;
 }
 
 export default App;

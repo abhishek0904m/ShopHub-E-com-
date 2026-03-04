@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useGoogleLogin } from '@react-oauth/google';
 import { API_BASE_URL } from "./config";
 
 const API = `${API_BASE_URL}/api`;
@@ -9,61 +8,11 @@ function Login({ onNavigate }) {
   const [showPwd, setShowPwd]       = useState(false);
   const [errors, setErrors]         = useState({});
   const [loading, setLoading]       = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [done, setDone]             = useState(false);
   const [loggedName, setLoggedName] = useState("");
   const [loggedEmail, setLoggedEmail] = useState("");
   const [serverError, setServerError] = useState("");
   const [shake, setShake]           = useState(false);
-
-  // Google OAuth Login
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      setGoogleLoading(true);
-      setServerError("");
-      
-      try {
-        // Get user info from Google
-        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        });
-        const userInfo = await userInfoResponse.json();
-
-        // Send to backend
-        const response = await fetch(`${API}/oauth-login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: userInfo.email,
-            name: userInfo.name,
-            provider: 'google',
-            providerId: userInfo.sub,
-            photoURL: userInfo.picture,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || 'OAuth login failed');
-        }
-
-        // Set logged in state
-        setLoggedName(data.name);
-        setLoggedEmail(userInfo.email);
-        setDone(true);
-      } catch (error) {
-        setServerError(error.message || "Google sign-in failed");
-        triggerShake();
-      } finally {
-        setGoogleLoading(false);
-      }
-    },
-    onError: () => {
-      setServerError("Google sign-in was cancelled or failed");
-      triggerShake();
-    },
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -422,67 +371,6 @@ function Login({ onNavigate }) {
             <div className="form-header">
               <h1>Sign in</h1>
               <p>Good to see you again. Enter your details below.</p>
-            </div>
-
-            {/* Google Sign In Button */}
-            <button 
-              type="button"
-              onClick={() => googleLogin()}
-              disabled={googleLoading}
-              style={{
-                width: '100%',
-                padding: '12px',
-                marginBottom: '20px',
-                background: '#fff',
-                border: '1.5px solid #e5e7eb',
-                borderRadius: '9px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                cursor: googleLoading ? 'not-allowed' : 'pointer',
-                fontSize: '13.5px',
-                fontWeight: '600',
-                fontFamily: "'Instrument Sans', sans-serif",
-                transition: 'all 0.2s',
-                opacity: googleLoading ? 0.7 : 1
-              }}
-              onMouseEnter={(e) => !googleLoading && (e.currentTarget.style.borderColor = '#fbbf24')}
-              onMouseLeave={(e) => !googleLoading && (e.currentTarget.style.borderColor = '#e5e7eb')}
-            >
-              {googleLoading ? (
-                <>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                    style={{ animation: "spin 0.7s linear infinite" }}>
-                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" strokeLinecap="round"/>
-                  </svg>
-                  Signing in with Google...
-                </>
-              ) : (
-                <>
-                  <svg width="18" height="18" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                  </svg>
-                  Continue with Google
-                </>
-              )}
-            </button>
-
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '12px', 
-              margin: '0 0 20px 0',
-              color: '#9ca3af',
-              fontSize: '12px',
-              fontWeight: '600'
-            }}>
-              <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e5e7eb' }} />
-              <span>OR</span>
-              <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e5e7eb' }} />
             </div>
 
             {serverError && (
