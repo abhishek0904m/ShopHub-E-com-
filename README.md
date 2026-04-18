@@ -303,7 +303,7 @@ For issues and questions:
 
 ## 🎉 Live Demo
 
-**Frontend**: [https://your-app.onrender.com]([https://your-app.onrender.com](https://shophub-frontend-fzd6.onrender.com))
+**Frontend**: [https://your-app.onrender.com](https://shophub-frontend-fzd6.onrender.com)
 **Backend API**: [https://your-api.onrender.com](https://your-api.onrender.com)
 
 ---
